@@ -1,6 +1,6 @@
 #ifndef LISTS_H
 #include <string.h>
-#include <Python.h>
+// #include <Python.h>
 #define LISTS_H
 #include <stddef.h>
 /**
