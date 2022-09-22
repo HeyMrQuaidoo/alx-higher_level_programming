@@ -1,0 +1,70 @@
+Usage
+=====
+
+``add_integer(...)``` returns the addition of its two arguments. For numbers,
+that value is equivalent to using the ``+`` operator.
+
+::
+	>>> import doctest
+    >>> add_integer = __import__('0-add_integer').add_integer
+    >>> add_integer(2, 3)
+    5
+
+::
+
+    >>> add_integer(2, -3)
+    -1
+
+The function also works with floating-point values.
+
+::
+
+    >>> add_integer(2.0, 3.0)
+    5
+
+Note that floats are casted to ints before addition is performed.
+
+::
+
+    >>> add_integer(2.9, 0.2)
+    2
+
+::
+
+    >>> add_integer(-2.9, -0.2)
+    -2
+
+Floating and non-floating point values can be combined.
+
+::
+
+    >>> add_integer(2.3, -3)
+    -1
+
+The second argument is optional - by default, it is 98.
+
+::
+
+    >>> add_integer(2)
+    100
+    
+    >>> r = add_integer(-5) # doctest: +ELLIPSIS
+    >>> print(r)
+    93
+
+    >>> negative_infinity = -float('inf')
+    >>> r = add_integer(negative_infinity) # doctest: +ELLIPSIS
+    >>> print(r)
+    93
+	
+    >>> positive_infinity = float('inf')
+    >>> positive_infinity == float('inf')
+    True
+    >>> positive_infinity is float('inf')
+    False
+
+    >>> type(r) == float
+    False
+    >>> print(r)
+    93
+ 
