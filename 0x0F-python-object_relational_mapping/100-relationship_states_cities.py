@@ -6,7 +6,7 @@ a city in the dtatabase
 from relationship_state import State, Base
 from relationship_city import City
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 import sys
 
 if __name__ == "__main__":
@@ -20,7 +20,7 @@ if __name__ == "__main__":
                            pool_pre_ping=True)
     Base.metadata.create_all(engine)
 
-    session = sessionmaker(engine)
+    session = Session(engine)
     new_state = State(name='California')
 
     new_city = City(name='San Francisco')
