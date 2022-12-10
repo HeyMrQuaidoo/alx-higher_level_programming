@@ -20,8 +20,8 @@ if __name__ == '__main__':
     engine = create_engine('mysql+mysqldb://{}:{}@{}:{}/{}'.format(
                            username, password, host, port, db_name
                            ), pool_pre_ping=True)
-    Session = sessionmaker(bind=engine)
     Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
     obj_session = Session()
 
     first_state = State(name='California')
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     first_state.cities.append(first_city)
 
     obj_session.add(first_state)
-    obj_session.add(first_city)
+    # obj_session.add(first_city)
     obj_session.commit()
 
     obj_session.close()
