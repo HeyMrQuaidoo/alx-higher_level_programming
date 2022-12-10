@@ -9,28 +9,23 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import sys
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     username = sys.argv[1]
     password = sys.argv[2]
     db_name = sys.argv[3]
     host = 'localhost'
     port = '3306'
-
-    engine = create_engine('mysql+mysqldb://{}:{}@{}:{}/{}'.format(
-                           username, password, host, port, db_name
-                           ), pool_pre_ping=True)
+    engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'.
+                           format(username, password, db_name),
+                           pool_pre_ping=True)
     Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
-    obj_session = Session()
 
-    first_state = State(name='California')
-    first_city = City(name='San Francisco')
-    first_state.cities.append(first_city)
+    session = sessionmaker(engine)
+    new_state = State(name='California')
 
-    obj_session.add(first_state)
-    # obj_session.add(first_city)
-    obj_session.commit()
+    new_city = City(name='San Francisco')
+    new_state.cities.append(new_city)
 
-    obj_session.close()
-    engine.dispose()
+    session.add(new_state)
+    session.commit()
+    session.close()

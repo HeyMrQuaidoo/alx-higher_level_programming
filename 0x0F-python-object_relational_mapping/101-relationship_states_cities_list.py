@@ -1,32 +1,27 @@
 #!/usr/bin/python3
-""" This module lists all states and their
-corresponding cities
 """
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from relationship_state import State, Base
+All states via SQLAlchemy
+"""
+from sys import argv
+from relationship_state import Base, State
 from relationship_city import City
-import sys
+from sqlalchemy import (create_engine)
+from sqlalchemy.orm import Session
 
-if __name__ == '__main__':
-    username = sys.argv[1]
-    password = sys.argv[2]
-    database = sys.argv[3]
-    host = 'localhost'
-    port = '3306'
-
-    engine = create_engine('mysql+mysqldb://{}:{}@{}:{}/{}'.format(
-                            username, password, host, port, database
-                            ), pool_pre_ping=True)
+if __name__ == "__main__":
+    engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'.
+                           format(argv[1], argv[2], argv[3]),
+                           pool_pre_ping=True)
     Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
-    new_session = Session()
-    states = new_session.query(State).order_by(State.id).all()
 
-    for state in states:
-        print('{}: {}'.format(state.id, state.name))
-        for city in state.cities:
-            print('\t{}: {}'.format(city.id, city.name))
+    session = Session(engine)
 
-    new_session.close()
-    engine.dispose()
+    data = session.query(State).order_by(State.id).all()
+
+    for row in data:
+        print("{}: {}".format(row.id, row.name))
+        for city in row.cities:
+            print("    {}: {}".format(city.id, city.name))
+
+    session.commit()
+    session.close()
